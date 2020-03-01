@@ -38,7 +38,7 @@ class DBWNode(object):
         # Vehicle properties params
         vehicle_mass = rospy.get_param('~vehicle_mass', 1736.35)
         #fuel_capacity = rospy.get_param('~fuel_capacity', 13.5)
-        brake_deadband = rospy.get_param('~brake_deadband', .1)
+        #brake_deadband = rospy.get_param('~brake_deadband', .1)
         decel_limit = rospy.get_param('~decel_limit', -5)
         accel_limit = rospy.get_param('~accel_limit', 1.)
         wheel_radius = rospy.get_param('~wheel_radius', 0.2413)
@@ -69,7 +69,6 @@ class DBWNode(object):
         self.brake_cmd = None
         self.steer_cmd = None
         self.controller = Controller(vehicle_mass=vehicle_mass,
-                                     brake_deadband=brake_deadband,
                                      decel_limit=decel_limit,
                                      accel_limit=accel_limit,
                                      wheel_radius=wheel_radius,
@@ -86,7 +85,7 @@ class DBWNode(object):
             if not None in (self.current_velocity, self.dbw_enabled, self.target_linear_velocity, self.target_angular_velocity):
                 self.throttle_cmd, self.brake_cmd, self.steer_cmd = self.controller.control(self.dbw_enabled,
                                                                                 self.current_velocity,
-                                                                                self.target_angular_velocity,
+                                                                                self.target_linear_velocity,
                                                                                 self.target_angular_velocity)
                 rospy.loginfo('Current throttle cmd =  %s', self.throttle_cmd)
                 rospy.loginfo('Current brake cmd =  %s', self.brake_cmd)
@@ -99,7 +98,7 @@ class DBWNode(object):
     This method updates the current ego vehicle velocity
     '''
     def velocity_cb(self, data):
-        self.current_velocity = data
+        self.current_velocity = data.twist.linear.x
 
     '''
     This method updates the dbw enabled status
@@ -113,6 +112,8 @@ class DBWNode(object):
     def twist_cb(self, data):
         self.target_linear_velocity = data.twist.linear.x
         self.target_angular_velocity = data.twist.angular.z
+        #rospy.loginfo('Target linear vel %s', self.target_linear_velocity)
+        #rospy.loginfo('Target angular vel %s', self.target_angular_velocity)
 
     def publish(self, throttle, brake, steer):
         tcmd = ThrottleCmd()
