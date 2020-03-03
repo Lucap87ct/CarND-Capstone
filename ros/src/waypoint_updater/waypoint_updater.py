@@ -54,7 +54,7 @@ class WaypointUpdater(object):
     '''
     def pose_cb(self, data):
         self.current_pose = data
-        rospy.loginfo('Current pose updated: x = %s , y = %s', self.current_pose.pose.position.x, self.current_pose.pose.position.y)
+        #rospy.loginfo('Current pose updated: x = %s , y = %s', self.current_pose.pose.position.x, self.current_pose.pose.position.y)
 
     '''
     This method stores the base waypoints in the class variables
@@ -65,7 +65,7 @@ class WaypointUpdater(object):
             self.base_waypoints_2d = [[wp.pose.pose.position.x, wp.pose.pose.position.y] for wp in input_waypoints.waypoints]
             self.base_waypoints_tree = KDTree(self.base_waypoints_2d)
             self.base_waypoints_init = True
-            rospy.loginfo('Base waypoints initialized.')
+            #rospy.loginfo('Base waypoints initialized.')
 
     '''
     The step method updates the final waypoints based on the current ego vehicle pose
@@ -99,7 +99,7 @@ class WaypointUpdater(object):
         if dot_product_result > 0:
             closest_idx = (closest_idx + 1)%len(self.base_waypoints_2d)
 
-        rospy.loginfo('Closest waypoint idx = %s', closest_idx)
+        #rospy.loginfo('Closest waypoint idx = %s', closest_idx)
         return closest_idx
 
     '''

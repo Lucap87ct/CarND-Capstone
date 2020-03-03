@@ -87,9 +87,9 @@ class DBWNode(object):
                                                                                 self.current_velocity,
                                                                                 self.target_linear_velocity,
                                                                                 self.target_angular_velocity)
-                rospy.loginfo('Current throttle cmd =  %s', self.throttle_cmd)
-                rospy.loginfo('Current brake cmd =  %s', self.brake_cmd)
-                rospy.loginfo('Current steer cmd =  %s', self.steer_cmd)
+                #rospy.loginfo('Current throttle cmd =  %s', self.throttle_cmd)
+                #rospy.loginfo('Current brake cmd =  %s', self.brake_cmd)
+                #rospy.loginfo('Current steer cmd =  %s', self.steer_cmd)
             if self.dbw_enabled:
                 self.publish(self.throttle_cmd, self.brake_cmd, self.steer_cmd)
             rate.sleep()
