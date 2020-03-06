@@ -53,7 +53,12 @@ class TLDetector(object):
         self.last_wp = -1
         self.state_count = 0
 
-        rospy.spin()
+        self.step()
+
+    def step(self):
+        rate = rospy.Rate(50)
+        while not rospy.is_shutdown():
+            rate.sleep()
 
     '''
     This method updates the current ego vehicle pose
@@ -175,6 +180,7 @@ class TLDetector(object):
             # TODO: implement actual tl classifier
             # closest_light_state = self.get_light_state(closest_light)
             closest_light_state = closest_light.state
+            rospy.loginfo('Current pose waypoint index: x = %s', current_pose_wp_idx)
             rospy.loginfo('Closest stop line waypoint index: x = %s', closest_line_wp_idx)
             rospy.loginfo('Closest traffic light state: %s', closest_light_state)
             return closest_line_wp_idx, closest_light_state

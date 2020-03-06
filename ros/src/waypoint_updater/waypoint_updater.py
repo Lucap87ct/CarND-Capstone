@@ -71,7 +71,7 @@ class WaypointUpdater(object):
     The step method updates the final waypoints based on the current ego vehicle pose
     '''
     def step(self):
-        rate = rospy.Rate(30)
+        rate = rospy.Rate(10)
         while not rospy.is_shutdown():
             if self.current_pose and self.base_waypoints_init:
                 closest_waypoint_idx = self.get_closest_waypoint_idx()
