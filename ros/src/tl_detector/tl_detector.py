@@ -180,9 +180,9 @@ class TLDetector(object):
             # TODO: implement actual tl classifier
             # closest_light_state = self.get_light_state(closest_light)
             closest_light_state = closest_light.state
-            rospy.loginfo('Current pose waypoint index: x = %s', current_pose_wp_idx)
-            rospy.loginfo('Closest stop line waypoint index: x = %s', closest_line_wp_idx)
-            rospy.loginfo('Closest traffic light state: %s', closest_light_state)
+            #rospy.loginfo('Current pose waypoint index: x = %s', current_pose_wp_idx)
+            #rospy.loginfo('Closest stop line waypoint index: x = %s', closest_line_wp_idx)
+            #rospy.loginfo('Closest traffic light state: %s', closest_light_state)
             return closest_line_wp_idx, closest_light_state
 
         rospy.loginfo('No close traffic light detected.')
