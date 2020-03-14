@@ -5,8 +5,8 @@ import rospy
 
 #GAS_DENSITY = 2.858
 #MPH_TO_MPS = 0.44704
-MIN_SPEED = 0.1
-
+MIN_SPEED = 0.1 # Minimum speed for standstill condition [m/s]
+STANDSTILL_TORQUE_ABS = 700 # Absolute torque for keeping standstill [Nm]
 
 class Controller(object):
     def __init__(self, vehicle_mass, decel_limit, accel_limit,
@@ -66,7 +66,7 @@ class Controller(object):
 
         if target_lin_vel == 0.0 and curr_vel_filtered < MIN_SPEED:
             throttle_cmd = 0.0
-            brake_cmd = 700 # N*m standstill torque
+            brake_cmd = STANDSTILL_TORQUE_ABS
 
         elif throttle_cmd < 0.1 and vel_error < 0:
             throttle_cmd = 0.0

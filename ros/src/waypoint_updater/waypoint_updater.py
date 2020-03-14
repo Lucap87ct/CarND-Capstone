@@ -9,24 +9,10 @@ from std_msgs.msg import Int32
 
 import math
 
-'''
-This node will publish waypoints from the car's current position to some `x` distance ahead.
-
-As mentioned in the doc, you should ideally first implement a version which does not care
-about traffic lights or obstacles.
-
-Once you have created dbw_node, you will update this node to use the status of traffic lights too.
-
-Please note that our simulator also provides the exact location of traffic lights and their
-current status in `/vehicle/traffic_lights` message. You can use this message to build this node
-as well as to verify your TL classifier.
-
-TODO (for Yousuf and Aaron): Stopline location for each traffic light.
-'''
-
 LOOKAHEAD_WPS = 200 # Number of waypoints we will publish. You can change this number
-STOPLINE_DIST = 3 # Distance to stop before stop line from center of the ego vehicle
-MAX_STOP_DECEL = 1.0 # Max deceleration for stopping on a red traffic light
+STOPLINE_DIST = 3 # Distance [#waypoints] to stop before stop line from center of the ego vehicle
+MAX_STOP_DECEL = 1.0 # Max deceleration for stopping on a red traffic light [#waypoints / s^2]
+MIN_VEL = 1.0 # Min velocity for moving [#waypoints / s]
 
 class WaypointUpdater(object):
     def __init__(self):
@@ -36,7 +22,7 @@ class WaypointUpdater(object):
         self.current_pose_sub = rospy.Subscriber('/current_pose', PoseStamped, self.pose_cb)
         self.base_waypoints_sub = rospy.Subscriber('/base_waypoints', Lane, self.base_waypoints_cb)
         self.traffic_light_sub = rospy.Subscriber('/traffic_waypoint', Int32, self.traffic_cb)
-        # TODO: Add a subscriber for /obstacle_waypoint
+        # TODO (optional): Add a subscriber for /obstacle_waypoint
 
         # Publishers
         self.final_waypoints_pub = rospy.Publisher('final_waypoints', Lane, queue_size=1)
@@ -140,9 +126,8 @@ class WaypointUpdater(object):
             p.pose = wp.pose
             stop_idx = max(self.stopline_wp_idx - closest_wp_idx - STOPLINE_DIST, 0)
             stop_dist = self.distance(waypoints, i, stop_idx)
-            # TODO (evaluate smoother profile than sqrt)
             target_vel = math.sqrt(2 * MAX_STOP_DECEL * stop_dist)
-            if target_vel < 1.0:
+            if target_vel < MIN_VEL:
                 target_vel = 0.0
             p.twist.twist.linear.x = min(target_vel, wp.twist.twist.linear.x)
             decel_waypoints.append(p)
@@ -152,7 +137,7 @@ class WaypointUpdater(object):
         self.stopline_wp_idx = msg.data
 
     def obstacle_cb(self, msg):
-        # TODO: Callback for /obstacle_waypoint message. We will implement it later
+        # TODO (optional): Callback for /obstacle_waypoint message. We will implement it later
         pass
 
     def get_waypoint_velocity(self, waypoint):
