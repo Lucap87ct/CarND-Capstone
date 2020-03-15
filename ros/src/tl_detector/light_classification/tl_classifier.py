@@ -4,6 +4,7 @@ import cv2
 import numpy as np
 import tensorflow as tf
 from keras.models import load_model
+import rospy
 
 class TLClassifier(object):
 
@@ -45,32 +46,30 @@ class TLClassifier(object):
         # Variables for traffic light classification
         self.classification = None
 
+    '''
+    This method detects the traffic light state in the input camera image
+    '''
     def get_classification(self, image):
-        """Determines the color of the traffic light in the image
-
-        Args:
-            image (cv::Mat): image containing the traffic light
-
-        Returns:
-            int: ID of traffic light color (specified in styx_msgs/TrafficLight)
-
-        """
         traffic_light_box = self.detect(image)
         if traffic_light_box is not None:
-            self.classification = self.classify(traffic_light_box)
-
-        if self.classification is not None:
-            if self.classification == 0:
-                return TrafficLight.RED
-            elif self.classification == 1:
-                return TrafficLight.YELLOW
-            elif self.classification == 2:
-                return TrafficLight.GREEN
-            else:
-                return TrafficLight.UNKNOWN
+            rospy.loginfo('TL Detector: Traffic light box found.')
+            self.classify(traffic_light_box)
+            if self.classification is not None:
+                if self.classification == 0:
+                    rospy.loginfo('TL Classifier: Red')
+                    return TrafficLight.RED
+                elif self.classification == 1:
+                    rospy.loginfo('TL Classifier: Yellow')
+                    return TrafficLight.YELLOW
+                elif self.classification == 2:
+                    rospy.loginfo('TL Classifier: Green')
+                    return TrafficLight.GREEN
+                else:
+                    rospy.loginfo('TL Classifier: Unknown')
+                    return TrafficLight.UNKNOWN
         else:
+            rospy.loginfo('TL Detector: Traffic light box not found.')
             return TrafficLight.UNKNOWN
-
     '''
     This method detects a traffic light box in an image and returns it
     '''
@@ -105,5 +104,3 @@ class TLClassifier(object):
         with self.class_graph.as_default():
             self.classification = np.argmax(self.classifier.predict(image.reshape(1,32,14,3)))
         return None
-
-
