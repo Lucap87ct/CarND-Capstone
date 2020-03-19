@@ -2,6 +2,7 @@ This is the project repo for the final project of the Udacity Self-Driving Car N
 
 ### Team Members
 Luca Profumo - profumo.luca@gmail.com
+
 Andrea Ortalda - andrea.ortalda@fcagroup.com
 
 ### The Project
