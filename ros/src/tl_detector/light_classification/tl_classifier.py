@@ -52,23 +52,23 @@ class TLClassifier(object):
     def get_classification(self, image):
         traffic_light_box = self.detect(image)
         if traffic_light_box is not None:
-            rospy.loginfo('TL Detector: Traffic light box found.')
+            #rospy.loginfo('TL Detector: Traffic light box found.')
             self.classify(traffic_light_box)
             if self.classification is not None:
                 if self.classification == 0:
-                    rospy.loginfo('TL Classifier: Red')
+                    #rospy.loginfo('TL Classifier: Red')
                     return TrafficLight.RED
                 elif self.classification == 1:
-                    rospy.loginfo('TL Classifier: Yellow')
+                    #rospy.loginfo('TL Classifier: Yellow')
                     return TrafficLight.YELLOW
                 elif self.classification == 2:
-                    rospy.loginfo('TL Classifier: Green')
+                    #rospy.loginfo('TL Classifier: Green')
                     return TrafficLight.GREEN
                 else:
-                    rospy.loginfo('TL Classifier: Unknown')
+                    #rospy.loginfo('TL Classifier: Unknown')
                     return TrafficLight.UNKNOWN
         else:
-            rospy.loginfo('TL Detector: Traffic light box not found.')
+            #rospy.loginfo('TL Detector: Traffic light box not found.')
             return TrafficLight.UNKNOWN
     '''
     This method detects a traffic light box in an image and returns it
