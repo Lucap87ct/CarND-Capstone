@@ -40,7 +40,7 @@ class TLDetector(object):
         self.camera_image = None
         self.current_traffic_lights = []
         self.bridge = CvBridge()
-        #self.light_classifier = TLClassifier()
+        self.light_classifier = TLClassifier()
         self.listener = tf.TransformListener()
         self.state = TrafficLight.UNKNOWN
         self.last_state = TrafficLight.UNKNOWN
@@ -90,7 +90,8 @@ class TLDetector(object):
             self.state = state
         elif self.state_count >= STATE_COUNT_THRESHOLD:
             self.last_state = self.state
-            light_wp = light_wp if state == TrafficLight.RED else -1
+            red = state == TrafficLight.RED or state == TrafficLight.UNKNOWN
+            light_wp = light_wp if red else -1
             self.last_wp = light_wp
             self.upcoming_red_light_pub.publish(Int32(light_wp))
         else:
@@ -115,8 +116,7 @@ class TLDetector(object):
         cv_image = self.bridge.imgmsg_to_cv2(self.camera_image, "bgr8")
 
         #Get classification
-        #return self.light_classifier.get_classification(cv_image)
-        pass
+        return self.light_classifier.get_classification(cv_image)
 
     '''
     This method finds the closest traffic light within a max distance and determines the distance to its stop line and its state
@@ -142,8 +142,8 @@ class TLDetector(object):
 
         if closest_light:
             #rospy.loginfo('Close traffic light found.')
-            #closest_light_state = self.get_light_state(closest_light)
-            closest_light_state = closest_light.state
+            closest_light_state = self.get_light_state(closest_light)
+            #closest_light_state = closest_light.state
             #rospy.loginfo('Current pose waypoint index: x = %s', current_pose_wp_idx)
             #rospy.loginfo('Closest stop line waypoint index: x = %s', closest_line_wp_idx)
             #rospy.loginfo('Closest traffic light state: %s', closest_light_state)

@@ -6,10 +6,62 @@ Luca Profumo - profumo.luca@gmail.com
 Andrea Ortalda - andrea.ortalda@fcagroup.com
 
 ### The Project
-TBD
+In this project, the software for the Udacity self-driving car is implemented using ROS.
 
-### Code guidelines
-TBD
+ROS nodes for the functionality integration as well as core algorithms for self-driving were implemented.
+
+These are the main building blocks of the project that we implemented:
+* Motion planning: Waypoint updater
+* Control: Drive-by-wire controller
+* Perception: Traffic light detector and classifier
+
+#### Testing
+The software was tested and tuned mainly on the Udacity simulator test track which contains both straight and curved road segments and several traffic lights.
+
+Reprocessing tests with real bag files were also performed for the traffic light detection and classification.
+
+Thanks to the tests performed in simulation and reprocessing, the software is ready for testing with test vehicle Carla by Udacity engineers.
+
+#### Waypoint updater
+The waypoint updater ROS node subscribes to the vehicle current pose, the base waypoints loaded from the map and the waypoints from the traffic light detector.
+
+It publishes a set of final waypoints that the ego vehicle has to follow.
+
+The core algorithm calculates the next waypoints to follow based on the vehicle current pose and updates their velocity to be able to stop at a stop line with red traffic light.
+
+##### Code guidelines
+See the waypoint_loader.py ROS node.
+
+#### Drive-by-wire controller
+The drive-by-wire controller node subscribes to the current vehicle velocity, the dbw enabled switch command and the twist command coming from the waypoint follower which contains target linear and angular velocity for the ego vehicle.
+
+It publishes three commands for the vehicle: throttle percentage, brake torque and steering angle.
+The throttle/brake decision is based on the difference between current velocity and target linear velocity. In case braking is needed, the braking torque is calculated from the target deceleration using vehicle characteristics (mass and wheel radius).
+
+Controllers already implemented and tuned by Udacity engineers for throttle (PID) and steering angle (yaw controller) were used.
+
+##### Code guidelines
+* dbw_node.py is the ROS node for control
+* twist_controller.py has the control algorithm code
+* pid.py and yaw_controller.py are the actual controllers
+
+#### Traffic light detector and classifier
+The traffic light detector node subscribes to the current vehicle pose, the base waypoints, the waypoints of stop lines for each traffic lights from the map and the vehicle camera image stream.
+
+It publishes the traffic waypoints containing the stop line waypoints when a red traffic light is detected.
+
+The traffic waypoints are calculated searching the next stop line waypoints with respect to the ego vehicle current pose and they are published when a red traffic light is detected.
+
+For detection and classification the traffic light classifier Class is used, which is using two different neural networks, one for traffic light box detection and extraction and the other for the traffic light state classification (red/yellow/green).
+
+##### Machine learning algorithms
+The core algorithm consists of both traffic light detection and classification which were developed in Python with Jupyter notebook using Machine Learning techniques.
+...
+
+##### Code guidelines
+* tl_detector.py is the ROS node
+* tl_classifier.py is the Class for traffic light detection and classification
+* Traffic_Light_detector.ipynb is the Jupyter notebook for the machine learning algorithms training and testing
 
 ### Usage
 

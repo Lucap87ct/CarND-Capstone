@@ -52,6 +52,6 @@ def cmd(input_bag_name):
     print ('Bag successfully analyzed!')
 
 if __name__ == '__main__':
-    cmd("traffic_lights_data_7.bag")
-    save("traffic_lights_data_7.bag")
+    cmd("mybag.bag")
+    save("mybag.bag")
 
