@@ -1,11 +1,14 @@
 This is the project repo for the final project of the Udacity Self-Driving Car Nanodegree: Programming a Real Self-Driving Car. For more information about the project, see the project introduction [here](https://classroom.udacity.com/nanodegrees/nd013/parts/6047fe34-d93c-4f50-8336-b70ef10cb4b2/modules/e1a23b06-329a-4684-a717-ad476f0d8dff/lessons/462c933d-9f24-42d3-8bdc-a08a5fc866e4/concepts/5ab4b122-83e6-436d-850f-9f4d26627fd9).
 
 ### Team Members
-Luca Profumo - profumo.luca@gmail.com
+Luca Profumo
 
-Andrea Ortalda - andrea.ortalda@fcagroup.com
+Andrea Ortalda
 
 ### The Project
+
+![](record.gif)
+
 In this project, the software for the Udacity self-driving car is implemented using ROS.
 
 ROS nodes for the functionality integration as well as core algorithms for self-driving were implemented.
@@ -56,6 +59,7 @@ For detection and classification the traffic light classifier Class is used, whi
 
 ##### Machine learning algorithms
 The core algorithm consists of both traffic light detection and classification which were developed in Python with Jupyter notebook using Machine Learning techniques.
+
 ...
 
 ##### Code guidelines
