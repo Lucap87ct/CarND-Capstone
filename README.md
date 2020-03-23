@@ -60,6 +60,70 @@ For detection and classification the traffic light classifier Class is used, whi
 ##### Machine learning algorithms
 The core algorithm consists of both traffic light detection and classification which were developed in Python with Jupyter notebook using Machine Learning techniques.
 
+###### Traffic Light Detection
+For the Traffic light detection, the [SSD MobileNet 11.6.17 version](http://download.tensorflow.org/models/object_detection/ssd_mobilenet_v1_coco_11_06_2017.tar.gz) was chosen analysing performances of other pre-trained models from the [model zoo] https://github.com/tensorflow/models/blob/master/research/object_detection/g3doc/detection_model_zoo.md, for example [faster_rcnn_inception_v2_coco](http://download.tensorflow.org/models/object_detection/faster_rcnn_inception_v2_coco_2018_01_28.tar.gz). These models were higly performing, but they led to unwanted behavior due to the high FPS of the use-case. For this reason, a MobileNet that deals really well with high FPS were finally chosen.
+
+<p align="center">
+	<img src="/imgs/real_train_image.png" alt="Detect Real Datum"
+	title="Detect Real Datum"  />
+</p>
+
+<p align="center">
+	<img src="/imgs/sim_data_train.png" alt="Detect Simulation Datum"
+	title="Detect Simulation Datum"  />
+</p>
+
+###### Traffic Light Classification
+After traffic light detection, classification on the processed image has to be performed. The architecure used in this project follows the structure provided by NVIDIA in their article [End to End Learning for Self-Driving Cars](https://arxiv.org/pdf/1604.07316v1.pdf). 
+This architecture was slightly modified with the addition od Dropout layers between Convolutional layers in oder t prevent overfitting.
+
+[image0]: ./imgs/nvidia.png "Nvidia Architecture"
+[image1]: ./imgs/architecture.png "Architecture Used"
+
+Nvidia Architecture         | Architecture Used          
+:-------------------------:|:-------------------------:|
+![alt text][image0] |       ![alt text][image1] 
+The following dictionare was created to match literal label to numeric encoding:
+
+  label_dict = dict({'R' : 0, 'Y' : 1, 'G' : 2, 'O' : 3}) 
+  
+The neural network was trained using both real data and simulation data. Real data were taken from the [BOSCH simple traffic light dataset](https://hci.iwr.uni-heidelberg.de/node/6132), while simulation data were taken recoridng bag files along the track. A total of n real images and m simulation ones were used to train the network. 
+A splitting of 80%-20% was the choice for creating trainig and validation data sets, with the following result:
+
+<p align="center">
+	<img src="/imgs/model_classification.png" alt="Classification Model Result"
+	title="Classification Model Result"  />
+</p>
+  
+the model was then simply tested with an image per dataset, including the Udacity record images that were just used for testing pourposes: 
+
+1) Real Datum
+<p align="center">
+	<img src="/imgs/classify_real.png" alt="Classify Real datum"
+	title="Classify Real datum"  />
+</p>
+
+2) Simulation Datum
+
+<p align="center">
+	<img src="/imgs/classify_sim.png" alt="Classify Simulation datum"
+	title="Classify Simulation datum"  />
+</p>
+
+3) Miscellaneous Datum
+
+<p align="center">
+	<img src="/imgs/classify_sim.png" alt="Classify Miscellaneous datum"
+	title="Classify Miscellaneous datum"  />
+</p>
+
+4) Udacity Record Datum
+
+<p align="center">
+	<img src="/imgs/classify_record.png" alt="Classify Udacity Record datum"
+	title="Classify Udacity Record datum"  />
+</p>
+
 ...
 
 ##### Code guidelines
