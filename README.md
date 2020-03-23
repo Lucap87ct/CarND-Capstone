@@ -89,7 +89,7 @@ The following dictionare was created to match literal label to numeric encoding:
 
   label_dict = dict({'R' : 0, 'Y' : 1, 'G' : 2, 'O' : 3})
 
-The neural network was trained using both real data and simulation data. Real data were taken from the [BOSCH simple traffic light dataset](https://hci.iwr.uni-heidelberg.de/node/6132), while simulation data were taken recording bag files along the track. A total of n real images and m simulation ones were used to train the network.
+The neural network was trained using both real data and simulation data. Real data were taken from the [BOSCH simple traffic light dataset](https://hci.iwr.uni-heidelberg.de/node/6132), while simulation data were taken recording bag files along the track. A total of 4056 real images and 1804 simulation ones were used to train the network.
 A splitting of 80%-20% was the choice for creating training and validation data sets, with the following result:
 
 <p align="center">
