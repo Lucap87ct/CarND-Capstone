@@ -83,6 +83,7 @@ This architecture was slightly modified with the addition od Dropout layers betw
 Nvidia Architecture         | Architecture Used          
 :-------------------------:|:-------------------------:|
 ![alt text][image0] |       ![alt text][image1] 
+
 The following dictionare was created to match literal label to numeric encoding:
 
   label_dict = dict({'R' : 0, 'Y' : 1, 'G' : 2, 'O' : 3}) 
@@ -113,7 +114,7 @@ the model was then simply tested with an image per dataset, including the Udacit
 3) Miscellaneous Datum
 
 <p align="center">
-	<img src="/imgs/classify_sim.png" alt="Classify Miscellaneous datum"
+	<img src="/imgs/classify_train_data.png" alt="Classify Miscellaneous datum"
 	title="Classify Miscellaneous datum"  />
 </p>
 
